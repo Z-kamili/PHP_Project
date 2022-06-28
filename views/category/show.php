@@ -1,7 +1,11 @@
-<?php require VIEWS_PATH . '/layouts/header.php'; ?>
+<?php
+
+$title = "Mon Site";
+
+?>
+
 
 
 <h1>Ma category</h1>
 
 
-<?php require VIEWS_PATH . '/layouts/footer.php'; ?>
