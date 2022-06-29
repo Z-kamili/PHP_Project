@@ -35,17 +35,21 @@ class Router {
 
      }
 
+     public function url(string $name,array $params = [])
+     {
+         return $this->router->generate($name,$params);
+     }
+
      public function run() : self
      {
 
         $match = $this->router->match();
         $view = $match['target'];
+        $router = $this;
         ob_start();
         require $this->viewPath . '/' . $view . '.php';
         $content = ob_get_clean();
-
         require $this->viewPath . '/' . 'layouts/default.php';
-
         return $this;
 
      }

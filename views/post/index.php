@@ -6,14 +6,31 @@ use App\Model\Post;
 
 $title = "Mon Blog";
 
-//PDO Initialisation
+//PDO Initialisation.
 $data = new DataProvider();
 
 $pdo = $data->connection();
 
-$query = $pdo->query('SELECT * FROM post ORDER BY created_at DESC LIMIT 12');
-$posts = $query->fetchAll(PDO::FETCH_CLASS,Post::class);
+$currentPage = (int)($_GET['page'] ?? 1);
 
+if($currentPage <= 0) {
+
+    throw new Exception('Numéro de page invalide');
+
+}
+
+$count = (int)$pdo->query('SELECT COUNT(id) FROM post')->fetch(PDO::FETCH_NUM)[0];
+//ceil eviter la virgule et aussi diviser par 12 c'est le nombre d'article par page.
+$perPage = 12;
+$pages = ceil($count / $perPage); 
+
+if($currentPage > $pages) {
+    throw new Exception('Cette page n\existe pas');
+}
+
+$offset = $perPage * ( $currentPage - 1 );
+$query =  $pdo->query("SELECT * FROM post ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
+$posts =  $query->fetchAll(PDO::FETCH_CLASS,Post::class);
 
 $data->disconnect($pdo);
 
@@ -25,19 +42,27 @@ $data->disconnect($pdo);
 
 <div class="row">
 <?php foreach($posts as $post) : ?>
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                 <h5 class="card-title"> <?= $post->getName() ?> </h5>
-                 <p class="text-muted"> <?= $post->getCreatedAt()->format('d/m/Y') ?> </p>
-                 <p> <?= $post->getExcerpt() ?> </p>
-                 <p>
-                    <a href="<?= url('post',['id' => $post->getID(), 'slug' => $post->getSlug()]) ?>" class="btn btn-primary">Voir plus</a>
-                 </p>
-            </div>
-        </div>
+    <div class="col-md-3 mb-3">
+       <?php require 'card.php' ?>
     </div>
 <?php endforeach ?>
+</div>
+
+<div class="d-flex justify-content-between my-4">
+
+      <?php if($currentPage > 1): ?>
+         
+           <a href="<?= $router->url('home') ?>?page=<?= $currentPage - 1 ?>" class="btn btn-primary">&laquo; Page précédent</a>
+
+       <?php endif ?>
+
+
+       <?php if ($currentPage < $pages): ?>
+
+            <a href="<?= $router->url('home') ?>?page=<?= $currentPage + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
+        
+        <?php endif ?>
+
 </div>
 
 

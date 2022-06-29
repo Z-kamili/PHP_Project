@@ -10,8 +10,8 @@ use PDOException;
 class DataProvider {
 
 
-      public function connection()
-      {
+    public function connection()
+    {
 
 
         $config = new Configuration();
@@ -30,7 +30,7 @@ class DataProvider {
         }
          
 
-      }
+    }
 
       public function disconnect($th) 
       {

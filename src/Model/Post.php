@@ -13,6 +13,8 @@ class Post {
 
     private $content;
 
+    private $slug;
+
     private $created_at;    
 
     private $categories = [];
@@ -40,6 +42,17 @@ class Post {
 
         return new DateTime($this->created_at);
 
+    }
+
+
+    public function getId() : int
+    {
+        return $this->id;
+    }
+
+    public function getSlug() : string
+    {
+        return $this->slug;
     }
 
 }
