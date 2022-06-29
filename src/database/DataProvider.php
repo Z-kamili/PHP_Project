@@ -14,7 +14,7 @@ class DataProvider {
     {
 
 
-        $config = new Configuration();
+        $config = new Configuration('mysql:dbname=php_project;host=localhost;port=3306','root','');
 
         try {
 

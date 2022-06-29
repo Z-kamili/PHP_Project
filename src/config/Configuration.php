@@ -9,11 +9,11 @@ class Configuration {
     private $db_password;
 
 
-    public function __construct()
+    public function __construct($id,$db_user,$db_password)
     {
-        $this->id = 'mysql:dbname=php_project;host=localhost;port=3306';
-        $this->db_user = 'root';
-        $this->db_password = '';
+        $this->id = $id;
+        $this->db_user = $db_user;
+        $this->db_password = $db_password;
     }
 
 

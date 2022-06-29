@@ -3,52 +3,42 @@
 use App\database\DataProvider;
 use App\Helpers\Text;
 use App\Model\Post;
+use App\Pagination;
+use App\Router;
+use App\URL;
 
 $title = "Mon Blog";
 
+$perPage = 12;
+
 //PDO Initialisation.
+
 $data = new DataProvider();
 
 $pdo = $data->connection();
 
-$page = (int)($_GET['page'] ?? 1);
+$currentPage = URL::getPositiveInt('page',1);
 
-if(!filter_var($page,FILTER_VALIDATE_INT)){
 
-    throw new Exception('Numéro de page invalide');
 
-}
+//ceil eviter la virgule et aussi diviser par 12 c'est le nombre d'article par page.
 
-if($page === '1') {
+$count = (int)$pdo->query('SELECT COUNT(id) FROM post')->fetch(PDO::FETCH_NUM)[0];
 
+$pages = Pagination::PagesNum($count,$perPage);
+
+Pagination::verification($currentPage,$pages);
+
+if($currentPage === '1') {
     header('Location: ' . $router->url('home'));
     http_response_code(301);
     exit();
-
 }
 
-$currentPage = (int)$page;
+$offset = Pagination::getOffset($currentPage,$perPage);
 
-if($currentPage <= 0) {
-
-    throw new Exception('Numéro de page invalide');
-
-}
-
-$count = (int)$pdo->query('SELECT COUNT(id) FROM post')->fetch(PDO::FETCH_NUM)[0];
-//ceil eviter la virgule et aussi diviser par 12 c'est le nombre d'article par page.
-$perPage = 12;
-$pages = ceil($count / $perPage); 
-
-if($currentPage > $pages) {
-    throw new Exception('Cette page n\existe pas');
-}
-
-$offset = $perPage * ( $currentPage - 1 );
 $query =  $pdo->query("SELECT * FROM post ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
 $posts =  $query->fetchAll(PDO::FETCH_CLASS,Post::class);
-$link = "";
-
 $data->disconnect($pdo);
 
 ?>

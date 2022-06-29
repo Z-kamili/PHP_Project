@@ -4,12 +4,12 @@
 
 
 //PDO Initialisation
-$pdo = new PDO('mysql:dbname=php_project;host=localhost','root','',[
 
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+use App\database\DataProvider;
 
-]);
+$data = new DataProvider();
 
+$pdo = $data->connection();
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
 $pdo->exec('TRUNCATE TABLE post_category');
 $pdo->exec('TRUNCATE TABLE post');
@@ -48,6 +48,6 @@ foreach($posts as $post) {
 $password = password_hash('admin',PASSWORD_BCRYPT);
 $pdo->exec("INSERT INTO user SET username='admin' , password='$password'");
 
-
+$data->disconnect($pdo);
 
 
