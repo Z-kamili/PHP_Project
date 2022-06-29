@@ -1,19 +1,21 @@
 <?php
 
+use App\database\DataProvider;
 use App\Helpers\Text;
 use App\Model\Post;
 
 $title = "Mon Blog";
 
 //PDO Initialisation
-$pdo = new PDO('mysql:dbname=php_project;host=localhost','root','',[
+$data = new DataProvider();
 
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-
-]);
+$pdo = $data->connection();
 
 $query = $pdo->query('SELECT * FROM post ORDER BY created_at DESC LIMIT 12');
 $posts = $query->fetchAll(PDO::FETCH_CLASS,Post::class);
+
+
+$data->disconnect($pdo);
 
 ?>
 
@@ -30,7 +32,7 @@ $posts = $query->fetchAll(PDO::FETCH_CLASS,Post::class);
                  <p class="text-muted"> <?= $post->getCreatedAt()->format('d/m/Y') ?> </p>
                  <p> <?= $post->getExcerpt() ?> </p>
                  <p>
-                    <a href="#" class="btn btn-primary">Voir plus</a>
+                    <a href="<?= url('post',['id' => $post->getID(), 'slug' => $post->getSlug()]) ?>" class="btn btn-primary">Voir plus</a>
                  </p>
             </div>
         </div>
