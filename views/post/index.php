@@ -11,7 +11,23 @@ $data = new DataProvider();
 
 $pdo = $data->connection();
 
-$currentPage = (int)($_GET['page'] ?? 1);
+$page = (int)($_GET['page'] ?? 1);
+
+if(!filter_var($page,FILTER_VALIDATE_INT)){
+
+    throw new Exception('Numéro de page invalide');
+
+}
+
+if($page === '1') {
+
+    header('Location: ' . $router->url('home'));
+    http_response_code(301);
+    exit();
+
+}
+
+$currentPage = (int)$page;
 
 if($currentPage <= 0) {
 
@@ -31,6 +47,7 @@ if($currentPage > $pages) {
 $offset = $perPage * ( $currentPage - 1 );
 $query =  $pdo->query("SELECT * FROM post ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
 $posts =  $query->fetchAll(PDO::FETCH_CLASS,Post::class);
+$link = "";
 
 $data->disconnect($pdo);
 
@@ -52,8 +69,11 @@ $data->disconnect($pdo);
 
       <?php if($currentPage > 1): ?>
          
-           <a href="<?= $router->url('home') ?>?page=<?= $currentPage - 1 ?>" class="btn btn-primary">&laquo; Page précédent</a>
-
+        <?php 
+        $link = $router->url('home');
+        if($currentPage > 2) $link .= '?page=' . $currentPage -1;
+        ?>
+           <a href="<?=$link ?>" class="btn btn-primary">&laquo; Page précédent</a>
        <?php endif ?>
 
 
