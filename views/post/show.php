@@ -1,6 +1,7 @@
 <?php
 
 use App\database\DataProvider;
+use App\Model\Category;
 use App\Model\Post;
 
 $title = "good";
@@ -38,15 +39,19 @@ if($post->getSlug() !== $slug) {
 
 } 
 
-$query = $pdo->prepare('SELECT * from post_category pc WHERE pc.post_id = :id ');
-
-
+$query = $pdo->prepare('
+SELECT c.id,c.slug,c.name
+from post_category pc 
+JOIN category c ON pc.category_id = c.id
+WHERE pc.post_id = :id ');
 
 $query->execute(['id' => $post->getId()]);
 
-$categories =  $query->fetchAll();
+$query->setFetchMode(PDO::FETCH_CLASS,Category::class);
 
-dd($categories);
+/** @var Category[] */
+
+$categories =  $query->fetchAll();
 
 $data->disconnect($pdo);
  
@@ -57,5 +62,13 @@ $data->disconnect($pdo);
 ?>
 
 <h1> <?= htmlentities($post->getName()) ?> </h1>
+
 <p class="text-muted"> <?= $post->getCreatedAt()->format('d m Y') ?> </p>
+
+<?php foreach($categories as $k => $category) : ?>
+
+    <a href=" <?= $router->url('category',['id' => $category->getID(), 'slug' => $category->getSlug()]) ?> "> <?= $category->getName() ?> </a>
+
+<?php endforeach ?>
+
 <p> <?= $post->getContent() ?> </p>

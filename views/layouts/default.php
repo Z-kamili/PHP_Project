@@ -11,7 +11,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
-        <a href="#" class="navbar-brand">Mon site</a>
+        <a href="<?= $router->url('home') ?>" class="navbar-brand">Mon site</a>
            
     </nav>
 
