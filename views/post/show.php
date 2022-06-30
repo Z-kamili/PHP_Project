@@ -38,6 +38,16 @@ if($post->getSlug() !== $slug) {
 
 } 
 
+$query = $pdo->prepare('SELECT * from post_category pc WHERE pc.post_id = :id ');
+
+
+
+$query->execute(['id' => $post->getId()]);
+
+$categories =  $query->fetchAll();
+
+dd($categories);
+
 $data->disconnect($pdo);
  
 
