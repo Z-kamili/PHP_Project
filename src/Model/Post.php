@@ -55,5 +55,10 @@ class Post {
         return $this->slug;
     }
 
+    public function getContent() : string 
+    {
+        return $this->content;
+    }
+
 }
 
