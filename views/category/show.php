@@ -3,6 +3,7 @@
 use App\database\DataProvider;
 use App\Model\Category;
 use App\Model\Post;
+use App\PaginatedQuery;
 use App\Pagination;
 use App\URL;
 
@@ -44,39 +45,24 @@ if($category->getSlug() !== $slug) {
 $title = "Catégorie {$category->getName()}";
 
 
+//pagination
+
+
 $currentPage = URL::getPositiveInt('page',1);
+ $paginatedQuery = new PaginatedQuery("SELECT p.* 
+       FROM post p 
+       JOIN post_category pc ON pc.post_id = p.id
+       WHERE pc.category_id = {$category->getId()}
+       ORDER BY created_at DESC",
+   "SELECT COUNT(category_id) FROM post_category WHERE category_id = {$category->getId()}",
+    Post::class,
+    $pdo,
 
-$perPage = 12;
+ );
 
-//ceil eviter la virgule et aussi diviser par 12 c'est le nombre d'article par page.
-
-$count = (int)$pdo
-        ->query('SELECT COUNT(category_id) FROM post_category WHERE category_id = ' . $category->getID())
-        ->fetch(PDO::FETCH_NUM)[0];
-
-$pages = Pagination::PagesNum($count,$perPage);
-
-Pagination::verification($currentPage,$pages);
-
-if($currentPage === '1') {
-    header('Location: ' . $router->url('home'));
-    http_response_code(301);
-    exit();
-}
-
-$offset = Pagination::getOffset($currentPage,$perPage);
-
-$query =  $pdo->query("
-            SELECT p.* 
-            FROM post p 
-            JOIN post_category pc ON pc.post_id = p.id
-            WHERE pc.category_id = {$category->getId()}
-            ORDER BY created_at DESC 
-            LIMIT $perPage OFFSET $offset
-
-");
-
-$posts =  $query->fetchAll(PDO::FETCH_CLASS,Post::class);
+/**@var Post[] */
+$posts =  $paginatedQuery->getItems();
+// dd($posts);
 $link = " ";
 $link = $router->url('category',['id' => $category->getID(),'slug' => $category->getSlug()]);
 
@@ -115,7 +101,7 @@ $data->disconnect($pdo);
 
        <?php if ($currentPage < $pages): ?>
 
-            <a href="<?= $router->url('category',['id' => $category->getID(),'slug' => $category->getSlug()]) ?>?page=<?= $currentPage + 1 ?>" class="btn btn-primary"> <?= $pages . ' ' . $currentPage ?> Page suivant &raquo;</a>
+            <a href="<?= $router->url('category',['id' => $category->getID(),'slug' => $category->getSlug()]) ?>?page=<?= $currentPage + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
         
         <?php endif ?>
 
