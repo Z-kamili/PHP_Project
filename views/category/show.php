@@ -48,7 +48,7 @@ $title = "Catégorie {$category->getName()}";
 //pagination
 
 
-$currentPage = URL::getPositiveInt('page',1);
+
  $paginatedQuery = new PaginatedQuery("SELECT p.* 
        FROM post p 
        JOIN post_category pc ON pc.post_id = p.id
@@ -87,21 +87,21 @@ $data->disconnect($pdo);
 
 <div class="d-flex justify-content-between my-4">
 
-      <?php if($currentPage > 1): ?>
+      <?php if($paginatedQuery->getCurrentPage()  > 1): ?>
          
         <?php 
 
         $L =$router->url('category',['id' => $category->getID(),'slug' => $category->getSlug()]);
 
-        if($currentPage > 2) $L  .= '?page=' . $currentPage -1;
+        if($paginatedQuery->getCurrentPage() > 2) $L  .= '?page=' . $paginatedQuery->getCurrentPage()  -1;
         ?>
            <a href="<?= $L  ?>" class="btn btn-primary">&laquo; Page précédent</a>
        <?php endif ?>
 
 
-       <?php if ($currentPage < $pages): ?>
+       <?php if ($paginatedQuery->getCurrentPage()  < $paginatedQuery->getPages()): ?>
 
-            <a href="<?= $router->url('category',['id' => $category->getID(),'slug' => $category->getSlug()]) ?>?page=<?= $currentPage + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
+            <a href="<?= $router->url('category',['id' => $category->getID(),'slug' => $category->getSlug()]) ?>?page=<?= $paginatedQuery->getCurrentPage()  + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
         
         <?php endif ?>
 

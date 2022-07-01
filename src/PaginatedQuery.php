@@ -11,6 +11,7 @@ class PaginatedQuery {
     private $pdo;
     private $perPage;
     private $currentPage;
+    private $pages;
 
     public function __construct(string $query,string $queryCount,string $classMapping,?\PDO $pdo = null,int $perPage = 12)
     {
@@ -21,27 +22,20 @@ class PaginatedQuery {
         $this->pdo = $pdo;
         $this->perPage = $perPage;
         $this->currentPage = URL::getPositiveInt('page',1);
+        $this->pages = "";
             
     }
 
     public function getItems() : array
     {
       
-
         $count = (int)$this->pdo
                  ->query($this->queryCount)
                  ->fetch(PDO::FETCH_NUM)[0];
 
-        $pages = Pagination::PagesNum($count,$this->perPage);
-
-        Pagination::verification($this->currentPage,$pages);
-
-        // if($currentPage === '1') {
-        //     header('Location: ' . $router->url('home'));
-        //     http_response_code(301);
-        //     exit();
-        // }
-
+        $this->pages = Pagination::PagesNum($count,$this->perPage);
+     
+        Pagination::verification($this->currentPage,$this->pages);
 
         //calcule offset 
         
@@ -62,6 +56,12 @@ class PaginatedQuery {
     {
 
        return $this->currentPage;
+
+    }
+
+    public function getPages() {
+
+        return $this->pages;
 
     }
 
