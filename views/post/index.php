@@ -6,6 +6,7 @@ use App\Model\Post;
 use App\PaginatedQuery;
 use App\Pagination;
 use App\Router;
+use App\Table\PostTable;
 use App\URL;
 
 $title = "Mon Blog";
@@ -16,20 +17,15 @@ $data = new DataProvider();
 
 $pdo = $data->connection();
 
-
-
 //ceil eviter la virgule et aussi diviser par 12 c'est le nombre d'article par page.
+
+$table = new PostTable($pdo);
 
 //pagination
 
-$paginatedQuery = new PaginatedQuery("SELECT * FROM post ORDER BY created_at DESC",
-"SELECT COUNT(id) FROM post",
-Post::class,
-$pdo,
-);
 
-/**@var Post[] */
-$posts =  $paginatedQuery->getItems();
+$posts =  $table->findPaginated();
+
 
 $data->disconnect($pdo);
 
@@ -50,18 +46,18 @@ $data->disconnect($pdo);
 <div class="d-flex justify-content-between my-4">
 
 
-      <?php if($paginatedQuery->getcurrentPage() > 1): ?>
+      <?php if($table->getPaginatedQuery()->getcurrentPage() > 1): ?>
         <?php 
         $link = $router->url('home');
-        if($paginatedQuery->getCurrentPage()> 2) $link .= '?page=' . $paginatedQuery->getCurrentPage() -1;
+        if($table->getPaginatedQuery()->getCurrentPage()> 2) $link .= '?page=' . $table->getPaginatedQuery()->getCurrentPage() -1;
         ?>
            <a href="<?=$link ?>" class="btn btn-primary">&laquo; Page précédent</a>
        <?php endif ?>
 
 
-       <?php if ($paginatedQuery->getCurrentPage() < $paginatedQuery->getPages()): ?>
+       <?php if ($table->getPaginatedQuery()->getCurrentPage() < $table->getPaginatedQuery()->getPages()): ?>
 
-            <a href="<?= $router->url('home') ?>?page=<?= $paginatedQuery->getCurrentPage() + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
+            <a href="<?= $router->url('home') ?>?page=<?= $table->getPaginatedQuery()->getCurrentPage() + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
         
         <?php endif ?>
 
