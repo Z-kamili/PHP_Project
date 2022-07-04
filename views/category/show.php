@@ -5,6 +5,7 @@ use App\Model\Category;
 use App\Model\Post;
 use App\PaginatedQuery;
 use App\Pagination;
+use App\Table\CategoryTable;
 use App\URL;
 
 $title = "Category";
@@ -17,15 +18,9 @@ $data =  new DataProvider();
 
 $pdo  = $data->connection();
 
-$query =  $pdo->prepare('SELECT * FROM category WHERE id = :id');
+$categoryTable = new CategoryTable($pdo);
 
-$query->execute(['id' => $id]);
-
-$query->setFetchMode(PDO::FETCH_CLASS , Category::class);
-
-/** @var Post|false */
-
-$category = $query->fetch();
+$category = $categoryTable->find($id);
 
 if($category === false) {
 

@@ -5,17 +5,12 @@ use App\Model\Post;
 use App\PaginatedQuery;
 use PDO;
 
-class PostTable {
+class PostTable extends Table {
 
-    private $pdo;
+
     private $paginatedQuery;
 
-    public function __construct(PDO $pdo )
-    {
 
-        $this->pdo = $pdo;
-
-    }
 
     public function findPaginated()
     {
