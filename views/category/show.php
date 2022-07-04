@@ -2,7 +2,7 @@
 
 use App\database\DataProvider;
 use App\Model\Category;
-use App\Model\Post;
+
 use App\PaginatedQuery;
 use App\Pagination;
 use App\Table\CategoryTable;
@@ -21,6 +21,9 @@ $pdo  = $data->connection();
 
 $categoryTable = new CategoryTable($pdo);
 
+
+$table = new PostTable($pdo);
+
 $category = $categoryTable->find($id);
 
 if($category === false) {
@@ -38,28 +41,25 @@ if($category->getSlug() !== $slug) {
 } 
 
 
-$title = "Catégorie {$category->getName()}";
-
 
 //pagination
 
 /**@var Post[] */
 
-$table = new PostTable($pdo);
+
 
 
 $posts =  $table->findPaginatedForCategory($category->getId());
 
 
-
-
-$link = " ";
+$link = "";
 
 
 $link = $router->url('category',['id' => $category->getID(),'slug' => $category->getSlug()]);
 
 
 $data->disconnect($pdo);
+
 
 ?>
 
@@ -97,6 +97,6 @@ $data->disconnect($pdo);
 
             <a href="<?= $router->url('category',['id' => $category->getID(),'slug' => $category->getSlug()]) ?>?page=<?= $table->getPaginatedQuery()->getCurrentPage()  + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
         
-        <?php endif ?>
+       <?php endif ?>
 
 </div>

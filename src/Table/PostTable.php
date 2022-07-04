@@ -5,6 +5,7 @@ use App\Model\Category;
 use App\Model\Post;
 use App\PaginatedQuery;
 use App\Pagination;
+use App\Table\Exception\NotFoundException;
 use PDO;
 
 class PostTable extends Table {
@@ -13,6 +14,28 @@ class PostTable extends Table {
     private $paginatedQuery;
 
 
+
+    public function find(int $id) : Post 
+    {
+        $query =  $this->pdo->prepare('SELECT * FROM post WHERE id = :id');
+
+        $query->execute(['id' => $id]);
+        
+        $query->setFetchMode(PDO::FETCH_CLASS , Post::class);
+        
+        /** @var Post|false */
+        
+        $post = $query->fetch();
+
+        if($post === false) {
+
+            throw new NotFoundException('post',$id);
+
+        }
+
+        return $post;
+
+    }
 
     public function findPaginated()
     {

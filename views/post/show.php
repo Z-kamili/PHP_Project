@@ -3,6 +3,8 @@
 use App\database\DataProvider;
 use App\Model\Category;
 use App\Model\Post;
+use App\Table\PostTable;
+use App\Table\Table;
 
 $title = "good";
 
@@ -14,21 +16,13 @@ $data =  new DataProvider();
 
 $pdo  = $data->connection();
 
-$query =  $pdo->prepare('SELECT * FROM post WHERE id = :id');
+$table = new Table($pdo);
 
-$query->execute(['id' => $id]);
-
-$query->setFetchMode(PDO::FETCH_CLASS , Post::class);
+$_table = new PostTable($pdo);
 
 /** @var Post|false */
 
-$post = $query->fetch();
-
-if($post === false) {
-
-    throw new Exception('Aucun article ne correspond à cet ID');
-
-}
+$post = $_table->find($id);
 
 if($post->getSlug() !== $slug) {
 
@@ -36,29 +30,12 @@ if($post->getSlug() !== $slug) {
     http_response_code(301);
     header('Location: ' . $url);
 
-
 } 
 
-$query = $pdo->prepare('
-SELECT c.id,c.slug,c.name
-from post_category pc 
-JOIN category c ON pc.category_id = c.id
-WHERE pc.post_id = :id ');
-
-$query->execute(['id' => $post->getId()]);
-
-$query->setFetchMode(PDO::FETCH_CLASS,Category::class);
-
-/** @var Category[] */
-
-$categories =  $query->fetchAll();
+$categories = $table->FindPostCategories($post);
 
 $data->disconnect($pdo);
  
-
-
-
-
 ?>
 
 <h1> <?= htmlentities($post->getName()) ?> </h1>

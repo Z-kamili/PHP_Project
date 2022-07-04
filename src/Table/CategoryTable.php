@@ -32,6 +32,11 @@ class CategoryTable extends Table {
         return $category;
 
     }
+
+    // public function hydratePosts (array $posts)
+    // {
+
+    // }
  
 
 
