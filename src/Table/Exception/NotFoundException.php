@@ -9,5 +9,6 @@ class NotFoundException extends \Exception {
         $this->message = "Aucun enregistrement ne correspond à l'id #$id dans la table '$table'";
     }
 
+    
 
 }

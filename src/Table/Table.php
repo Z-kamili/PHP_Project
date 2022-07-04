@@ -1,6 +1,7 @@
 <?php 
 namespace App\Table;
 
+use App\Model\Category;
 use App\Model\Post;
 use App\Table\Exception\NotFoundException;
 use PDO;

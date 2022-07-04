@@ -8,7 +8,7 @@ use App\Pagination;
 use App\Table\Exception\NotFoundException;
 use PDO;
 
-class PostTable extends Table {
+final class PostTable extends Table {
 
 
     private $paginatedQuery;
