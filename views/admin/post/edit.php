@@ -2,6 +2,7 @@
 
 use App\database\DataProvider;
 use App\Table\PostTable;
+use Valitron\Validator;
 
 
 $title = "edit page";
@@ -19,47 +20,69 @@ $post = $postTable->find($params['id']);
 $success = false;
 
 $errors = [];
+
 //test 
-
-
 
 if(!empty($_POST)) {
     
-    if(empty($_POST['name'])) {
+    Validator::lang('fr');
 
-        $errors['name'][] = 'Le champs titre ne peut pas étre vide';
-        $success = false;
+    $v = new Validator($_POST);
 
-    }
+    $v->rule('required','name');
 
-    if(mb_strlen($_POST['name']) <= 3 ) {
+    $v->rule('required','content');
 
-         $errors['name'][] = 'Le champs titre ne peut pas étre vide';
-         $success = false;
+    $v->rule('lengthBetween','name',3,200);
 
-    }
+    $v->rule('lengthBetween','content',3,200);
 
-    if(empty($_POST['content'])) {
 
-        $errors['content'][] = 'Le champs content et empty ';
-        $success = false;
 
-    }
+    // if(empty($_POST['name'])) {
 
-    if(mb_strlen($_POST['content']) <= 3 ) {
+    //     $errors['name'][] = 'Le champs titre ne peut pas étre vide';
+    //     $success = false;
 
-         $errors['content'][] = ' Le champs content doit contenir 3 caractere et plus ';
-         $success = false;
+    // }
 
-    }
+    // if(mb_strlen($_POST['name']) <= 3 ) {
 
-    if(empty($errors)) {
+    //      $errors['name'][] = 'Le champs titre ne peut pas étre vide';
+    //      $success = false;
+
+    // }
+
+    // if(empty($_POST['content'])) {
+
+    //     $errors['content'][] = 'Le champs content et empty ';
+    //     $success = false;
+
+    // }
+
+    // if(mb_strlen($_POST['content']) <= 3 ) {
+
+    //      $errors['content'][] = ' Le champs content doit contenir 3 caractere et plus ';
+    //      $success = false;
+
+    // }
+
+
+    if($v->validate()) {
 
          $post->setName($_POST['name'])
         ->setContent($_POST['content'])
         ->setId($params['id']);
          $postTable->update($post,'post');
          $success = true;
+
+    } else {
+
+      $errors = $v->errors();
+     
+
+
+
 
     }
 
@@ -74,10 +97,34 @@ if(!empty($_POST)) {
 <?php endif ?>
 
 <?php if(!empty($errors)) : ?>
+
     <div class="alert alert-danger">
-        L'article n'a pas pu étre modifier, merci de corriger vos erreurs
+        L'article n'a pas pu étre modifier, merci de corriger vos erreurs.
+        
+        <ul>
+            
+            <?php  
+            
+            $i = 0;
+            
+            foreach($errors as $key => $error)
+            {
+              
+               echo $error[$i]; 
+               echo '<br>';
+               
+                  
+            }
+            
+            ?>
+
+        </ul>
+
     </div>
+
 <?php endif ?>
+
+
 
 <h1> Editer l'article <?= $post->getName() ?> </h1>
 
@@ -85,30 +132,12 @@ if(!empty($_POST)) {
 
    <div class="form-group">
     <label for="name">Titre</label>
-    <input type="text" class=" form-control" name="name" value="<?= $post->getName()?>" required > 
-
-    <?php if(!empty($errors)) : ?>
-
-        <div class="invalid-feedback">
-            Lorem ipsum dolor sit amet, consectetur kjsfjklfdgkljfgdkljfgdkfdg.
-        </div>
-
-    <?php endif ?>
-
+    <input type="text" class=" form-control" name="name" value="<?= $post->getName()?>"  > 
    </div>
 
    <div class="form-group">
     <label for="content">Content</label>
-    <input type="text" class="nt-5 form-control" name="content" value="<?= $post->getContent()?>" required >
-
-    <?php if(!empty($errors)) : ?>
-
-        <div class="invalid-feedback">
-         Lorem ipsum dolor sit amet, consectetur kjsfjklfdgkljfgdkljfgdkfdg.
-        </div>
-
-    <?php endif ?>
-
+    <input type="text" class="nt-5 form-control" name="content" value="<?= $post->getContent()?>"  >
    </div>
 
    <button class="btn btn-primary">Modifier</button>
