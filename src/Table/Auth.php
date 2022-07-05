@@ -1,11 +1,13 @@
 <?php 
-namespace App;
+namespace App\Table;
+
+use Exception;
 
 class Auth {
 
     public static function check () {
 
-        //TODO : 
+
 
     }
 

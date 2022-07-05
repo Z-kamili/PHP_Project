@@ -21,6 +21,6 @@ $router
        ->get('/admin','admin/post/index','admin_posts')
        ->get('/admin/post/new','admin/post/new','admin_post_new')
        ->get('/admin/post/edit/[i:id]','admin/post/edit','admin_post_edit')
-       ->get('/admin/post/delete/[i:id]' , 'admin/post/delete' , 'admin_post_delete')
+       ->post('/admin/post/delete/[i:id]' , 'admin/post/delete' , 'admin_post_delete')
        ->run();
 

@@ -1,7 +1,10 @@
 <?php
 
+use App\Table\Auth;
 use App\database\DataProvider;
 use App\Table\PostTable;
+
+Auth::check();
 
 $title = "Administration";
 
@@ -52,7 +55,7 @@ $posts = $poststable->findPaginated();
 
                    <a href=" <?= $router->url('admin_post_edit', ['id' => $post->getID() ] ) ?> " class="btn btn-primary" >  Editer      </a>
 
-                   <a href=" <?= $router->url('admin_post_delete', [ 'id' => $post->getID() ] ) ?> " class="btn btn-danger" onclick="return confirm('Voulez vous vraiment effectuer cette action')">  Supprimer   </a>
+                   <form action=" <?= $router->url('admin_post_delete', [ 'id' => $post->getID() ] ) ?> " style="display: inline-block;" method="POST"  onclick="return confirm('Voulez vous vraiment effectuer cette action')">  <button type="submit"  class="btn btn-danger">Supprimer</button>    </form>
                      
                 </td>
          </tr>
