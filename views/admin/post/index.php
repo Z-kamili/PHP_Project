@@ -13,16 +13,24 @@ $poststable = new PostTable($pdo);
 
 $posts = $poststable->findPaginated();
 
-$link = $router->url('admin_posts');
+
 
 
 
 ?>
 
+<?php if(isset($_GET['delete'])) : ?>
+
+<div class="alert alert-success">
+    L'enregistrement a bien été supprimé
+</div>
+
+<?php endif?>
 
 <table class="table table-striped">
 
     <thead>
+        <th>#</th>
         <th>Titre</th>
         <th>Actions</th>
     </thead>
@@ -31,10 +39,25 @@ $link = $router->url('admin_posts');
 
     <?php foreach($posts as $post): ?>
          <tr>
-                <td> <?= $post->getName() ?> </td>
-                <td>  </td>
+
+               <td> <?= $post->getID() ?> </td>
+
+                <td>
+
+                   <a href="<?= $router->url('admin_post_new',['id'=>$post->getID()]) ?>">     <?= $post->getName() ?>   </a>
+
+                </td>
+
+                <td> 
+
+                   <a href=" <?= $router->url('admin_post_edit', ['id' => $post->getID() ] ) ?> " class="btn btn-primary" >  Editer      </a>
+
+                   <a href=" <?= $router->url('admin_post_delete', [ 'id' => $post->getID() ] ) ?> " class="btn btn-danger" onclick="return confirm('Voulez vous vraiment effectuer cette action')">  Supprimer   </a>
+                     
+                </td>
          </tr>
     <?php endforeach ?>
+
     </tbody>
 
 </table>
@@ -44,6 +67,7 @@ $link = $router->url('admin_posts');
 
       <?php if($poststable->getPaginatedQuery()->getcurrentPage() > 1): ?>
         <?php 
+        $link = $router->url('admin_posts');
         if($poststable->getPaginatedQuery()->getCurrentPage()> 2) $link .= '?page=' . $poststable->getPaginatedQuery()->getCurrentPage() -1;
         ?>
            <a href="<?=$link ?>" class="btn btn-primary">&laquo; Page précédent</a>
@@ -52,7 +76,7 @@ $link = $router->url('admin_posts');
 
        <?php if ($poststable->getPaginatedQuery()->getCurrentPage() < $poststable->getPaginatedQuery()->getPages()): ?>
 
-            <a href="<?= $link ?>?page=<?= $poststable->getPaginatedQuery()->getCurrentPage() + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
+            <a href="<?= $router->url('admin_posts') ?>?page=<?= $poststable->getPaginatedQuery()->getCurrentPage() + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
         
         <?php endif ?>
 

@@ -6,6 +6,7 @@ use App\Model\Post;
 use App\PaginatedQuery;
 use App\Pagination;
 use App\Table\Exception\NotFoundException;
+use Exception;
 use PDO;
 
 final class PostTable extends Table {
@@ -47,6 +48,18 @@ final class PostTable extends Table {
      $posts =  $this->paginatedQuery->getItems();
 
      return $posts;
+
+    }
+
+    public function delete(int $id,string $table) : void
+    {
+      $query =  $this->pdo->prepare("DELETE FROM {$table} WHERE id = ? ");
+      $ok = $query->execute([$id]);
+      if ($ok === false) {
+
+        throw new Exception("Impossible de supprimer l'enregistrement $id dans la table {$this->table}");
+
+      }
 
     }
 
