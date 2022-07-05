@@ -16,7 +16,7 @@ $poststable = new PostTable($pdo);
 
 $posts = $poststable->findPaginated();
 
-
+ 
 
 
 

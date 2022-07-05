@@ -7,7 +7,7 @@ use DateTime;
 
 class Post {
 
-    private $id;
+    private $id;    
 
     private $name;
 
@@ -20,13 +20,23 @@ class Post {
     private $categories = [];
 
 
-    public function getName() : ?string{
+    public function getName() : ?string 
+    {
 
         return htmlentities($this->name);
 
     }
 
-    public function getExcerpt() : ?string {
+    public function setName(string $name) :self 
+    {
+
+          $this->name = $name;
+          return $this;
+
+    }
+
+    public function getExcerpt() : ?string 
+    {
 
          if($this->content === null){
             return null;
@@ -50,6 +60,11 @@ class Post {
         return $this->id;
     }
 
+    public function setId($id) 
+    {
+       $this->id =  $id;
+    }
+
     public function getSlug() : string
     {
         return $this->slug;
@@ -58,6 +73,14 @@ class Post {
     public function getContent() : string 
     {
         return $this->content;
+    }
+
+    public function setContent(string $content): self 
+    {
+
+        $this->content = $content;
+        return  $this;
+
     }
 
 }
