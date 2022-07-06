@@ -73,7 +73,9 @@ $posts = $poststable->findPaginated();
         $link = $router->url('admin_posts');
         if($poststable->getPaginatedQuery()->getCurrentPage()> 2) $link .= '?page=' . $poststable->getPaginatedQuery()->getCurrentPage() -1;
         ?>
+
            <a href="<?=$link ?>" class="btn btn-primary">&laquo; Page précédent</a>
+           
        <?php endif ?>
 
 

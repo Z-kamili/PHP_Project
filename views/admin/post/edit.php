@@ -1,6 +1,7 @@
 <?php
 
 use App\database\DataProvider;
+use App\HTML\Form;
 use App\Table\PostTable;
 use Valitron\Validator;
 
@@ -88,6 +89,8 @@ if(!empty($_POST)) {
 
  }
 
+ $form = new Form($post,$errors);
+
 ?>
 
 <?php if($success) :  ?>
@@ -130,15 +133,9 @@ if(!empty($_POST)) {
 
 <form action="" method="POST">
 
-   <div class="form-group">
-    <label for="name">Titre</label>
-    <input type="text" class=" form-control" name="name" value="<?= $post->getName()?>"  > 
-   </div>
-
-   <div class="form-group">
-    <label for="content">Content</label>
-    <input type="text" class="nt-5 form-control" name="content" value="<?= $post->getContent()?>"  >
-   </div>
+     <?= $form->input('name','Titre'); ?>
+     <?= $form->input('slug','Slug'); ?>
+     <?= $form->textarea('content','content'); ?>
 
    <button class="btn btn-primary">Modifier</button>
 
