@@ -2,6 +2,7 @@
 
 use App\database\DataProvider;
 use App\HTML\Form;
+use App\Request\Validation;
 use App\Table\PostTable;
 use Valitron\Validator;
 
@@ -25,51 +26,12 @@ $errors = [];
 //test 
 
 if(!empty($_POST)) {
-    
-    Validator::lang('fr');
 
-    $v = new Validator($_POST);
+    $v = new Validation($_Post);
 
-    $v->rule('required','name');
+    $validate = $v->validate();
 
-    $v->rule('required','content');
-
-    $v->rule('lengthBetween','name',3,200);
-
-    $v->rule('lengthBetween','content',3,200);
-
-
-
-    // if(empty($_POST['name'])) {
-
-    //     $errors['name'][] = 'Le champs titre ne peut pas étre vide';
-    //     $success = false;
-
-    // }
-
-    // if(mb_strlen($_POST['name']) <= 3 ) {
-
-    //      $errors['name'][] = 'Le champs titre ne peut pas étre vide';
-    //      $success = false;
-
-    // }
-
-    // if(empty($_POST['content'])) {
-
-    //     $errors['content'][] = 'Le champs content et empty ';
-    //     $success = false;
-
-    // }
-
-    // if(mb_strlen($_POST['content']) <= 3 ) {
-
-    //      $errors['content'][] = ' Le champs content doit contenir 3 caractere et plus ';
-    //      $success = false;
-
-    // }
-
-
-    if($v->validate()) {
+    if($validate->validate()) {
 
          $post->setName($_POST['name'])
         ->setContent($_POST['content'])
@@ -78,13 +40,7 @@ if(!empty($_POST)) {
          $success = true;
 
     } else {
-
-      $errors = $v->errors();
-     
-
-
-
-
+      $errors = $validate->errors();
     }
 
  }
@@ -115,7 +71,6 @@ if(!empty($_POST)) {
               
                echo $error[$i]; 
                echo '<br>';
-               
                   
             }
             
@@ -126,8 +81,6 @@ if(!empty($_POST)) {
     </div>
 
 <?php endif ?>
-
-
 
 <h1> Editer l'article <?= $post->getName() ?> </h1>
 

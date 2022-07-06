@@ -16,10 +16,6 @@ $poststable = new PostTable($pdo);
 
 $posts = $poststable->findPaginated();
 
- 
-
-
-
 ?>
 
 <?php if(isset($_GET['delete'])) : ?>
@@ -75,7 +71,7 @@ $posts = $poststable->findPaginated();
         ?>
 
            <a href="<?=$link ?>" class="btn btn-primary">&laquo; Page précédent</a>
-           
+
        <?php endif ?>
 
 
