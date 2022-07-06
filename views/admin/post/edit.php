@@ -35,9 +35,13 @@ if(!empty($_POST)) {
 
     if($validate->validate()) {
 
+    // $date =  DateTime::createFromFormat('Y-M-D H:i:S',$_POST['created_at']);
+
+         $date = $_POST['created_at'];
          $post->setName($_POST['name'])
          ->setContent($_POST['content'])
          ->setSlug($_POST['slug']);
+         $post->setCreated_at($date);
          $post->setId($params['id']);
          $postTable->update($post,'post');
          $success = true;
@@ -94,6 +98,7 @@ if(!empty($_POST)) {
      <?= $form->input('name','Titre'); ?>
      <?= $form->input('slug','Slug'); ?>
      <?= $form->textarea('content','content'); ?>
+     <?= $form->input('created_at','Date de Creation'); ?>
 
    <button class="btn btn-primary">Modifier</button>
 

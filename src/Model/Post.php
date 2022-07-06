@@ -47,12 +47,13 @@ class Post {
     }
 
 
-    public function getCreatedAt () : DateTime 
+    public function getCreated_at () : DateTime 
     {
 
         return new DateTime($this->created_at);
 
     }
+    
 
 
     public function getId() : int
@@ -87,6 +88,12 @@ class Post {
         return  $this;
 
     }
+    
+    public function setCreated_at($date)  : self
+    {
+        $this->created_at = $date;
+        return $this;
 
+    }
 }
 

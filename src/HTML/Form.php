@@ -1,6 +1,8 @@
 <?php 
 namespace App\HTML;
 
+use DateTimeInterface;
+
 class Form {
 
     private $data;
@@ -43,7 +45,7 @@ class Form {
 
         if(isset($this->errors[$name])) {
 
-            $inputClass .= ' is-invalid';
+            $inputClass .= 'is-invalid';
 
         }
 
@@ -55,7 +57,9 @@ class Form {
     HTML;
     }
 
-    private function getValue(string $key) {
+    private function getValue(string $key) : string
+    {
+
 
          if(is_array($this->data)) {
 
@@ -64,17 +68,30 @@ class Form {
          }
 
 
-         
-         $method = 'get' . ucfirst($key);
+         $method = 'get' . ucwords($key);
 
 
-         return  $this->data->$method();
+         $value = $this->data->$method();
+
+
+         if ($value instanceof DateTimeInterface) {
+
+             return $value->format('Y-m-d H:i:s');
+
+         }
+
+         return  $value;
 
 
     }
 
 
+
+
 /** 
+ * 
+ * 
+ * 
  * 
  * 
  *  <div class="form-group">

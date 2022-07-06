@@ -19,13 +19,16 @@ final class PostTable extends Table {
 
     public function update(Post $post,$table) :void {
 
-          $query = $this->pdo->prepare("UPDATE {$table} SET name = :name , content = :content , slug = :slug WHERE id = :id");
+          $query = $this->pdo->prepare("UPDATE {$table} SET name = :name , content = :content , slug = :slug , created_at = :created_at WHERE id = :id");
+
+          // dd($post->getCreated_at()->format('Y-m-d H:i:s'));
 
           $ok = $query->execute([
             'id' => $post->getID(),
             'name' => $post->getName(),
             'slug' => $post->getSlug(),
-            'content'=> $post->getContent()
+            'content'=> $post->getContent(),
+            'created_at' => $post->getCreated_at()->format('Y-m-d H:i:s')
           ]);
        
           if($ok === false ) 
