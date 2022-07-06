@@ -27,20 +27,25 @@ $errors = [];
 
 if(!empty($_POST)) {
 
-    $v = new Validation($_Post);
+    $data = $_POST;
+
+    $v = new Validation($data);
 
     $validate = $v->validate();
 
     if($validate->validate()) {
 
          $post->setName($_POST['name'])
-        ->setContent($_POST['content'])
-        ->setId($params['id']);
+         ->setContent($_POST['content'])
+         ->setSlug($_POST['slug']);
+         $post->setId($params['id']);
          $postTable->update($post,'post');
          $success = true;
 
     } else {
-      $errors = $validate->errors();
+
+         $errors = $validate->errors();
+        
     }
 
  }

@@ -50,7 +50,7 @@ class Form {
         return  <<<HTML
         <div class="form-group">
                  <label for="field($name)">{$label}</label>
-                 <input type="text" id="field{$name}" class="{$inputClass}" name="{$name}" value="{$value}" required >  
+                 <textarea type="text" id="field{$name}" class="{$inputClass}" name="{$name}">{$value}</textarea>
         </div> 
     HTML;
     }

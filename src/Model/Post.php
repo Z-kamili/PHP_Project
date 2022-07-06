@@ -70,6 +70,11 @@ class Post {
         return $this->slug;
     }
 
+    public function setSlug($slug) 
+    {
+        return $this->slug = $slug;
+    }
+
     public function getContent() : string 
     {
         return $this->content;
