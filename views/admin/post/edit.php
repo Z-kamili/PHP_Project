@@ -29,7 +29,7 @@ if(!empty($_POST)) {
 
     $data = $_POST;
 
-    $v = new Validation($data);
+    $v = new Validation($data,$postTable);
 
     $validate = $v->validate();
 

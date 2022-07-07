@@ -2,16 +2,19 @@
 
 namespace App\Request;
 
+use App\Table\PostTable;
 use Valitron\Validator;
 
 class Validation {
 
     private $data;
+    private $table;
      
 
-    public function __construct(array $data)
+    public function __construct(array $data,PostTable $table)
     {
         $this->data = $data;
+        $this->table = $table;
     }
 
 
@@ -31,9 +34,9 @@ class Validation {
 
         $v->rule('slug','slug');
 
-        $v->rule(function ($field,$value){
+        $v->rule(function ($field,$value)  {
 
-            return false;
+            return !$this->table->exists($field,$value,'post');
 
         },'slug','Ce slug est déja utilisé');
 

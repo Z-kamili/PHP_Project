@@ -4,6 +4,7 @@ namespace App\Table;
 use App\Model\Category;
 use App\Model\Post;
 use App\Table\Exception\NotFoundException;
+use Exception;
 use PDO;
 
 class Table {
@@ -60,8 +61,17 @@ class Table {
      */
     public function exists (string $field,$value,$table) :bool   
     {
-       $query = $this->pdo->prepare('SELECT COUNT(id) FROM {$table} WHERE $field = ? ');
-       $query->execute([$value]);
+       try {
+
+        $query = $this->pdo->prepare("SELECT COUNT(id) FROM {$table} WHERE $field = ? ");
+        $query->execute([$value]);
+
+       }catch(Exception $ex) {
+
+           dd($ex);
+
+       } 
+
        return (int)$query->fetch(PDO::FETCH_NUM)[0] > 0;
 
 
