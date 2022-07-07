@@ -43,11 +43,11 @@ class Form {
         $inputClass = 'form-control';
 
 
-        if(isset($this->errors[$name])) {
+        // if(isset($this->errors[$name])) {
 
-            $inputClass .= 'is-invalid';
+        //     $inputClass .= 'is-invalid';
 
-        }
+        // }
 
         return  <<<HTML
         <div class="form-group">

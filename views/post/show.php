@@ -40,7 +40,7 @@ $data->disconnect($pdo);
 
 <h1> <?= htmlentities($post->getName()) ?> </h1>
 
-<p class="text-muted"> <?= $post->getCreatedAt()->format('d m Y') ?> </p>
+<p class="text-muted"> <?= $post->getCreated_at()->format('d m Y') ?> </p>
 
 <?php foreach($categories as $k => $category) : ?>
 

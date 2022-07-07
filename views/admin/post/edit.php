@@ -35,7 +35,6 @@ if(!empty($_POST)) {
 
     if($validate->validate()) {
 
-    // $date =  DateTime::createFromFormat('Y-M-D H:i:S',$_POST['created_at']);
 
          $date = $_POST['created_at'];
          $post->setName($_POST['name'])

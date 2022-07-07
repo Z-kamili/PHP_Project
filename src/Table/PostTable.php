@@ -21,8 +21,6 @@ final class PostTable extends Table {
 
           $query = $this->pdo->prepare("UPDATE {$table} SET name = :name , content = :content , slug = :slug , created_at = :created_at WHERE id = :id");
 
-          // dd($post->getCreated_at()->format('Y-m-d H:i:s'));
-
           $ok = $query->execute([
             'id' => $post->getID(),
             'name' => $post->getName(),

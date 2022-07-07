@@ -10,11 +10,22 @@ class Table {
 
     protected $pdo;
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $pdo
+     */
     function __construct($pdo)
     {
         $this->pdo = $pdo;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param Post $post
+     * @return void
+     */
     public function FindPostCategories(Post $post)
     {
 
@@ -36,6 +47,25 @@ class Table {
 
         return $categories; 
         
+    }
+
+
+    /**
+     * 
+     *
+     * @param string $field
+     * @param [type] $value
+     * @param [type] $table
+     * @return boolean
+     */
+    public function exists (string $field,$value,$table) :bool   
+    {
+       $query = $this->pdo->prepare('SELECT COUNT(id) FROM {$table} WHERE $field = ? ');
+       $query->execute([$value]);
+       return (int)$query->fetch(PDO::FETCH_NUM)[0] > 0;
+
+
+
     }
 
 }
