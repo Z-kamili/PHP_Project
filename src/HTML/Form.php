@@ -29,10 +29,12 @@ class Form {
         }
 
         return  <<<HTML
+
             <div class="form-group">
                      <label for="field($key)">{$label}</label>
                      <input type="text" id="field{$key}" class="{$inputClass}" name="{$key}" value="{$value}" required >  
             </div> 
+            
         HTML;
 
     }

@@ -40,8 +40,8 @@ if(!empty($_POST)) {
          $post->setName($_POST['name'])
               ->setContent($_POST['content'])
               ->setSlug($_POST['slug']);
-        $post->setId($params['id']);
-        $post->setCreated_at($date);
+         $post->setId($params['id']);
+         $post->setCreated_at($date);
          $postTable->update($post,'post');
          $success = true;
 
