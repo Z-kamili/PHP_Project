@@ -34,7 +34,7 @@ class Form {
                      <label for="field($key)">{$label}</label>
                      <input type="text" id="field{$key}" class="{$inputClass}" name="{$key}" value="{$value}" required >  
             </div> 
-            
+
         HTML;
 
     }
@@ -59,7 +59,7 @@ class Form {
     HTML;
     }
 
-    private function getValue(string $key) : string
+    private function getValue(string $key) : ?string
     {
 
 

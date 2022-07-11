@@ -92,14 +92,5 @@ if(!empty($_POST)) {
 
 <h1> Editer l'article <?= $post->getName() ?> </h1>
 
-<form action="" method="POST">
-
-     <?= $form->input('name','Titre'); ?>
-     <?= $form->input('slug','Slug'); ?>
-     <?= $form->textarea('content','content'); ?>
-     <?= $form->input('created_at','Date de Creation'); ?>
-
-   <button class="btn btn-primary">Modifier</button>
-
-</form>
+<?php require('_form.php') ?>
 

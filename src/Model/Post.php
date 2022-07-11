@@ -23,7 +23,7 @@ class Post {
     public function getName() : ?string 
     {
 
-        return htmlentities($this->name);
+        return $this->name;
 
     }
 
@@ -47,8 +47,13 @@ class Post {
     }
 
 
-    public function getCreated_at () : DateTime 
+    public function getCreated_at () : ?DateTime 
     {
+
+        if($this->created_at === null) 
+        {
+            return null;
+        }
 
         return new DateTime($this->created_at);
 
@@ -66,7 +71,7 @@ class Post {
        $this->id =  $id;
     }
 
-    public function getSlug() : string
+    public function getSlug() : ?string
     {
         return $this->slug;
     }
@@ -76,14 +81,14 @@ class Post {
         return $this->slug = $slug;
     }
 
-    public function getContent() : string 
+    public function getContent() : ?string 
     {
         return $this->content;
     }
 
     public function setContent(string $content): self 
     {
-
+        dd($content);
         $this->content = $content;
         return  $this;
 

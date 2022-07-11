@@ -7,7 +7,7 @@ use App\Request\Validation;
 use App\Table\PostTable;
 
 
-$title = "edit page";
+$title = "ajouter article";
 
 $data = new DataProvider();
 
@@ -23,8 +23,9 @@ $success = false;
 
 $errors = [];
 
-
 //test 
+$date = date('Y-m-d H:i:s');
+$post->setCreated_at($date);
 
 if(!empty($_POST)) {
 
@@ -37,7 +38,7 @@ if(!empty($_POST)) {
     if($validate->validate()) {
 
 
-         $date = $_POST['created_at'];
+
          $post->setName($_POST['name'])
               ->setContent($_POST['content'])
               ->setSlug($_POST['slug']);
@@ -67,6 +68,7 @@ if(!empty($_POST)) {
 <?php if(!empty($errors)) : ?>
 
     <div class="alert alert-danger">
+
         L'article n'a pas pu étre enregistré, merci de corriger vos erreurs.
         
         <ul>
@@ -93,16 +95,7 @@ if(!empty($_POST)) {
 
 <h1> Créer un article  </h1>
 
-<form action="" method="POST">
-
-     <?= $form->input('name','Titre'); ?>
-     <?= $form->input('slug','Slug'); ?>
-     <?= $form->textarea('content','content'); ?>
-     <?= $form->input('created_at','Date de Creation'); ?>
-
-   <button class="btn btn-primary">Modifier</button>
-
-</form>
+<?php require('_form.php') ?>
 
 
 
