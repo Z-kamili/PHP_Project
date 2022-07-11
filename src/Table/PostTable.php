@@ -36,6 +36,30 @@ final class PostTable extends Table {
 
     }
 
+    public function create(Post $post,string $table) : void 
+    {
+
+       $query = $this->pdo->prepare("INSERT INTO {$table} SET name = :name , slug = :slug , created_at = :created , content = :content");
+
+       $ok = $query->execute([
+
+        'name' => $post->getName(),
+        'slug' => $post->getSlug(),
+        'content' => $post->getContent(),
+        'created' => $post->getCreated_at()->format('Y-m-d H:i:s')
+
+       ]);
+
+       if($ok === false) {
+
+             throw new Exception("Impossible de créer l'enregistrement dans la table $table}");
+
+       }
+
+       $post->setId($this->pdo->lastInsertId());
+
+    }
+
     public function find(int $id) : Post 
     {
 
@@ -114,6 +138,8 @@ final class PostTable extends Table {
         return $posts;
 
     }
+
+
 
     
 

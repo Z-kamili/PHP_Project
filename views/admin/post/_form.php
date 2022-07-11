@@ -4,7 +4,15 @@
      <?= $form->textarea('content','content'); ?>
      <?= $form->input('created_at','Date de Creation'); ?> 
 
-   <button class="btn btn-primary">Modifier</button>
+   <button class="btn btn-primary">
+
+   <?php if($post->getId() !== null) : ?>
+        Modifier
+    <?php else: ?>
+        Crèer
+    <?php endif ?> 
+
+   </button>
 
 </form> 
 

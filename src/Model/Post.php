@@ -61,14 +61,16 @@ class Post {
     
 
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    public function setId($id) 
+    public function setId($id) : self
     {
        $this->id =  $id;
+
+       return $this;
     }
 
     public function getSlug() : ?string
@@ -88,7 +90,6 @@ class Post {
 
     public function setContent(string $content): self 
     {
-        dd($content);
         $this->content = $content;
         return  $this;
 
@@ -100,5 +101,7 @@ class Post {
         return $this;
 
     }
+
+
 }
 

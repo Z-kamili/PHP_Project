@@ -37,15 +37,14 @@ if(!empty($_POST)) {
 
     if($validate->validate()) {
 
-
-
          $post->setName($_POST['name'])
               ->setContent($_POST['content'])
               ->setSlug($_POST['slug']);
-         $post->setId($params['id']);
          $post->setCreated_at($date);
-         $postTable->update($post,'post');
-         $success = true;
+         $post->setId(null);
+         $postTable->create($post,'post');
+         header('Location: ' . $router->url('admin_posts', ['id' => $post->getId()]) . '?created=1');
+         exit();
 
     } else {
 
