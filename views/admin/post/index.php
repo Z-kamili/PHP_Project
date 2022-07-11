@@ -26,7 +26,9 @@ $posts = $poststable->findPaginated();
 
 <?php endif?>
 
-<table class="table table-striped">
+<a href="<?= $router->url('admin_post_new') ?>" class="btn  btn-primary" >     Ajouter   </a>
+
+<table class="table mt-5 table-striped">
 
     <thead>
         <th>#</th>
@@ -49,9 +51,9 @@ $posts = $poststable->findPaginated();
 
                 <td> 
 
-                   <a href=" <?= $router->url('admin_post_edit', ['id' => $post->getID() ] ) ?> " class="btn btn-primary" >  Editer      </a>
+                   <a href=" <?= $router->url('admin_post_edit', ['id' => $post->getID() ] ) ?> " class="btn btn-primary" >  Editer   </a>
 
-                   <form action=" <?= $router->url('admin_post_delete', [ 'id' => $post->getID() ] ) ?> " style="display: inline-block;" method="POST"  onclick="return confirm('Voulez vous vraiment effectuer cette action')">  <button type="submit"  class="btn btn-danger">Supprimer</button>    </form>
+                   <form action=" <?= $router->url('admin_post_delete', [ 'id' => $post->getID() ] ) ?> " style="display: inline-block;" method="POST"  onclick="return confirm('Voulez vous vraiment effectuer cette action')">  <button type="submit"  class="btn btn-danger"> Supprimer </button>    </form>
                      
                 </td>
          </tr>
