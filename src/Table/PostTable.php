@@ -36,8 +36,7 @@ final class PostTable extends Table {
 
     }
 
-    public function create(Post $post,string $table) : void 
-    {
+    public function create(Post $post,string $table) : void {
 
        $query = $this->pdo->prepare("INSERT INTO {$table} SET name = :name , slug = :slug , created_at = :created , content = :content");
 
@@ -60,8 +59,7 @@ final class PostTable extends Table {
 
     }
 
-    public function find(int $id) : Post 
-    {
+    public function find(int $id) : Post  {
 
         $query =  $this->pdo->prepare('SELECT * FROM post WHERE id = :id');
 
@@ -83,8 +81,7 @@ final class PostTable extends Table {
 
     }
 
-    public function findPaginated()
-    {
+    public function findPaginated() {
 
      //pagination
      $this->paginatedQuery = new PaginatedQuery("SELECT * FROM post ORDER BY created_at DESC","SELECT COUNT(id) FROM post",Post::class,$this->pdo,);
@@ -96,8 +93,7 @@ final class PostTable extends Table {
 
     }
 
-    public function delete(int $id,string $table) : void
-    {
+    public function delete(int $id,string $table) : void {
 
       $query =  $this->pdo->prepare("DELETE FROM {$table} WHERE id = ? ");
 

@@ -44,19 +44,14 @@ class Form {
         $value = $this->getValue($name);
         $inputClass = 'form-control';
 
-
-        // if(isset($this->errors[$name])) {
-
-        //     $inputClass .= 'is-invalid';
-
-        // }
-
         return  <<<HTML
+        
         <div class="form-group">
                  <label for="field($name)">{$label}</label>
                  <textarea type="text" id="field{$name}" class="{$inputClass}" name="{$name}">{$value}</textarea>
         </div> 
-    HTML;
+       
+       HTML;
     }
 
     private function getValue(string $key) : ?string
@@ -78,7 +73,7 @@ class Form {
 
          if ($value instanceof DateTimeInterface) {
 
-             return $value->format('Y-m-d H:i:s');
+            return $value->format('Y-m-d H:i:s');
 
          }
 

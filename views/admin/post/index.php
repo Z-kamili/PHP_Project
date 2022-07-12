@@ -26,7 +26,10 @@ $posts = $poststable->findPaginated();
 
 <?php endif?>
 
-<a href="<?= $router->url('admin_post_new') ?>" class="btn  btn-primary" >     Ajouter   </a>
+<div class="btn">
+<a href="<?= $router->url('admin_post_new') ?>" class="btn btn-success" >     Ajouter   </a>
+</div>
+
 
 <table class="table mt-5 table-striped">
 

@@ -3,6 +3,7 @@
 use App\database\DataProvider;
 use App\HTML\Form;
 use App\Request\Validation;
+use App\Table\CategoryTable;
 use App\Table\PostTable;
 use Valitron\Validator;
 
@@ -15,9 +16,9 @@ $data = new DataProvider();
 
 $pdo =  $data->connection();
 
-$postTable = new PostTable($pdo);
+$categoryTable = new CategoryTable($pdo);
 
-$post = $postTable->find($params['id']);
+$ctg = $categoryTable->find($params['id']);
 
 $success = false;
 
@@ -29,20 +30,15 @@ if(!empty($_POST)) {
 
     $data = $_POST;
 
-    $v = new Validation($data,$postTable);
+    $v = new Validation($data,$categoryTable);
 
-    $validate = $v->PostValidate();
+    $validate = $v->CategoryValidate();
 
     if($validate->validate()) {
 
-
-         $date = $_POST['created_at'];
-         $post->setName($_POST['name'])
-              ->setContent($_POST['content'])
+          $ctg->setName($_POST['name'])
               ->setSlug($_POST['slug']);
-         $post->setId($params['id']);
-         $post->setCreated_at($date);
-         $postTable->update($post,'post');
+         $categoryTable->update($ctg,'category');
          $success = true;
 
     } else {
@@ -53,13 +49,13 @@ if(!empty($_POST)) {
 
  }
 
- $form = new Form($post,$errors);
+ $form = new Form($ctg,$errors);
 
 ?>
 
 <?php if($success) :  ?>
     <div class="alert alert-success">
-        L'article a bien été modifier      
+        category a bien été modifier      
     </div>
 <?php endif ?>
 
@@ -90,7 +86,7 @@ if(!empty($_POST)) {
 
 <?php endif ?>
 
-<h1> Editer l'article <?= $post->getName() ?> </h1>
+<h1> Editer category <?= $ctg->getName() ?> </h1>
 
 <?php require('_form.php') ?>
 

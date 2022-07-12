@@ -33,7 +33,7 @@ if(!empty($_POST)) {
 
     $v = new Validation($data,$postTable);
 
-    $validate = $v->validate();
+    $validate = $v->PostValidate();
 
     if($validate->validate()) {
 

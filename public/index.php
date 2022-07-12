@@ -22,5 +22,9 @@ $router
        ->match('/admin/post/new','admin/post/new','admin_post_new')
        ->match('/admin/post/edit/[i:id]','admin/post/edit','admin_post_edit')
        ->post('/admin/post/delete/[i:id]' , 'admin/post/delete' , 'admin_post_delete')
+       ->match('/admin/category/edit/[i:id]','admin/category/edit','admin_category_edit')
+       ->post('/admin/category/delete/[i:id]' , 'admin/category/delete' , 'admin_category_delete')
+       ->get('/admin/category','admin/category/index','admin_category')
+       ->match('/admin/category/new','admin/category/new','admin_category_new')
        ->run();
 

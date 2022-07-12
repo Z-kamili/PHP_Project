@@ -12,6 +12,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
         <a href="<?= $router->url('home') ?>" class="navbar-brand">Mon site</a>
+        <a href="<?= $router->url('admin_posts') ?>" class="navbar-brand">Article</a>
+        <a href="<?= $router->url('admin_category') ?>" class="navbar-brand">Category</a>
            
     </nav>
 

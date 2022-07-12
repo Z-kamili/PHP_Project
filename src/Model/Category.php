@@ -15,9 +15,27 @@ class Category {
 
     } 
 
+    public function setId($id) : self {
+
+         $this->id = $id;
+
+         return $this;
+
+
+
+    }
+
     public function getSlug() : ? string {
 
         return $this->slug;
+
+    }
+
+    public function setSlug($slug) : self {
+
+         $this->slug = $slug;
+
+         return $this;
 
     }
 
@@ -26,5 +44,15 @@ class Category {
         return $this->name;
 
     }
+
+    public function setName($name) : self {
+
+        $this->name = $name;
+
+        return $this;
+
+    }
+
+    
 
 }

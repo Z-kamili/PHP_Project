@@ -2,12 +2,13 @@
 
 use App\database\DataProvider;
 use App\HTML\Form;
+use App\Model\Category;
+use App\Model\Post;
 use App\Request\Validation;
+use App\Table\CategoryTable;
 use App\Table\PostTable;
-use Valitron\Validator;
 
-
-$title = "edit page";
+$title = "category";
 
 $data = new DataProvider();
 
@@ -15,9 +16,9 @@ $data = new DataProvider();
 
 $pdo =  $data->connection();
 
-$postTable = new PostTable($pdo);
+$CategoryTable = new CategoryTable($pdo);
 
-$post = $postTable->find($params['id']);
+$ctg = new Category();
 
 $success = false;
 
@@ -25,25 +26,23 @@ $errors = [];
 
 //test 
 
+
 if(!empty($_POST)) {
 
     $data = $_POST;
 
-    $v = new Validation($data,$postTable);
+    $v = new Validation($data , $CategoryTable);
 
-    $validate = $v->PostValidate();
+    $validate = $v->CategoryValidate();
 
     if($validate->validate()) {
 
-
-         $date = $_POST['created_at'];
-         $post->setName($_POST['name'])
-              ->setContent($_POST['content'])
-              ->setSlug($_POST['slug']);
-         $post->setId($params['id']);
-         $post->setCreated_at($date);
-         $postTable->update($post,'post');
-         $success = true;
+         $ctg->setName($_POST['name'])
+             ->setSlug($_POST['slug']);
+         $ctg->setId(null);
+         $CategoryTable->create($ctg,'category');
+         header('Location: ' . $router->url('admin_categories', ['id' => $ctg->getId()]) . '?created=1');
+         exit();
 
     } else {
 
@@ -53,20 +52,21 @@ if(!empty($_POST)) {
 
  }
 
- $form = new Form($post,$errors);
+ $form = new Form($ctg,$errors);
 
 ?>
 
 <?php if($success) :  ?>
     <div class="alert alert-success">
-        L'article a bien été modifier      
+        L'article a bien été enregistré      
     </div>
 <?php endif ?>
 
 <?php if(!empty($errors)) : ?>
 
     <div class="alert alert-danger">
-        L'article n'a pas pu étre modifier, merci de corriger vos erreurs.
+
+        L'article n'a pas pu étre enregistré, merci de corriger vos erreurs.
         
         <ul>
             
@@ -90,7 +90,9 @@ if(!empty($_POST)) {
 
 <?php endif ?>
 
-<h1> Editer l'article <?= $post->getName() ?> </h1>
+<h1> Créer une category  </h1>
 
 <?php require('_form.php') ?>
+
+
 
