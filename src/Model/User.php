@@ -5,6 +5,13 @@ namespace App\Model;
 
 class User {
 
+    /**
+     * Undocumented variable
+     *
+     * @var int
+     */
+    private $id;
+
      /**
       * @var string
       */
@@ -17,6 +24,20 @@ class User {
       */
      private $password;
 
+
+
+     public function getId() : int 
+     {
+        return $this->id;
+     }
+
+     public function setId(int $id) : self {
+
+         $this->id = $id;
+
+         return $this;
+
+     }
 
 
      public function getUserName() : ?string
