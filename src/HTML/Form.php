@@ -20,7 +20,7 @@ class Form {
 
         $value = $this->getValue($key);
         $inputClass = 'form-control';
-        $type = $key === "password" ? "password" : "text";
+        $type = $key;
 
 
         if(isset($this->errors[$key])) {
@@ -40,8 +40,27 @@ class Form {
 
     }
 
+    public function password(string $key,string $label) :string 
+    {
+
+        $value = $this->getValue($key);
+        $inputClass = 'form-control';
+        $type = $key;
+
+        return  <<<HTML
+
+            <div class="form-group">
+                     <label for="field($key)">{$label}</label>
+                     <input type="{$type}" id="field{$key}" class="{$inputClass}" name="{$key}" required >  
+            </div> 
+
+        HTML;
+
+    }
+
     public function textarea(string $name, string $label) : string 
     {
+
         $value = $this->getValue($name);
         $inputClass = 'form-control';
 
@@ -57,7 +76,6 @@ class Form {
 
     private function getValue(string $key) : ?string
     {
-
 
          if(is_array($this->data)) {
 

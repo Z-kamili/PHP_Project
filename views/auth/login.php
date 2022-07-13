@@ -46,7 +46,7 @@ if(!empty($_POST)) {
 
     } catch (NotFoundException $e) {
 
-         $errors['password'] = 'Identifiant ou mot de passe incorrect';
+         $errors['password'] = ['Identifiant ou mot de passe incorrect'];
 
     }
 
@@ -63,19 +63,16 @@ $form = new Form($user,$error);
 
 
 <?php if(!empty($error)) : ?> 
-
-<?php if(isset($_GET['forbidden'])) : ?>
 <div class="alert alert-warning">
-    <?= $error['password'][0] ?>
+    <?= 'Identifiant ou mot de passe incorrect' ?>
 </div>
-<?php endif ?>
 
 <?php endif?>
 
 <form action="<?= $router->url('login') ?>" method="POST">
 
    <?= $form->input('username','Nom d\'utilisateur'); ?>
-   <?= $form->input('password','Mot de passe'); ?>
+   <?= $form->password('password','Mot de passe'); ?>
    <button type="submit" class="btn btn-primary">Se connecter</button>
 
 
