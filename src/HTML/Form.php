@@ -20,6 +20,7 @@ class Form {
 
         $value = $this->getValue($key);
         $inputClass = 'form-control';
+        $type = $key === "password" ? "password" : "text";
 
 
         if(isset($this->errors[$key])) {
@@ -32,7 +33,7 @@ class Form {
 
             <div class="form-group">
                      <label for="field($key)">{$label}</label>
-                     <input type="text" id="field{$key}" class="{$inputClass}" name="{$key}" value="{$value}" required >  
+                     <input type="{$type}" id="field{$key}" class="{$inputClass}" name="{$key}" value="{$value}" required >  
             </div> 
 
         HTML;
