@@ -13,7 +13,17 @@
 
         <a href="<?= $router->url('home') ?>" class="navbar-brand">Mon site</a>
         <a href="<?= $router->url('admin_posts') ?>" class="navbar-brand">Article</a>
-        <a href="<?= $router->url('admin_category') ?>" class="navbar-brand">Category</a>
+        <a href="<?= $router->url('admin_category') ?>"  class="navbar-brand">Category</a>
+
+      
+
+        <?php if(isset($_SESSION['auth'])) : ?>
+
+        <form action="<?= $router->url('logout') ?>" method="post" style="display:inline" >
+            <button type="submit" class="btn btn-secondary">Se déconnecter</button>
+        </form>
+
+        <?php endif ?>
            
     </nav>
 

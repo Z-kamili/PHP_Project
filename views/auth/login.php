@@ -64,13 +64,15 @@ $form = new Form($user,$error);
 
 <?php if(!empty($error)) : ?> 
 
+<?php if(isset($_GET['forbidden'])) : ?>
 <div class="alert alert-warning">
     <?= $error['password'][0] ?>
 </div>
+<?php endif ?>
 
 <?php endif?>
 
-<form action="" method="POST">
+<form action="<?= $router->url('login') ?>" method="POST">
 
    <?= $form->input('username','Nom d\'utilisateur'); ?>
    <?= $form->input('password','Mot de passe'); ?>

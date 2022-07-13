@@ -15,14 +15,14 @@ class User {
      /**
       * @var string
       */
-     private $username;
+    private $username;
 
      /**
       * Undocumented variable
       *
       * @var string
       */
-     private $password;
+    private $password;
 
 
 
@@ -31,7 +31,8 @@ class User {
         return $this->id;
      }
 
-     public function setId(int $id) : self {
+     public function setId(int $id) : self 
+     {
 
          $this->id = $id;
 
@@ -42,23 +43,31 @@ class User {
 
      public function getUserName() : ?string
      {
+
         return $this->username;
+
      }
 
      public function setUserName($username) : self
      {
+
        $this->username = $username;
        return $this;
+
      }
 
      public function getPassword() : ?string
      {
+
         return $this->password;
+
      }
 
      public function setPassword($password) 
      {
+
        $this->password = $password;
+       
      }
 
 
