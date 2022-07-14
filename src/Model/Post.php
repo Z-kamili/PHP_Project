@@ -127,7 +127,7 @@ class Post {
          foreach($this->categories as $k => $category) 
          {
            
-            $ids[] = $k;
+            $ids[] = $category;
          }
 
          return $ids;

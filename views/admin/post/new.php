@@ -4,6 +4,7 @@ use App\database\DataProvider;
 use App\HTML\Form;
 use App\Model\Post;
 use App\Request\Validation;
+use App\Table\CategoryTable;
 use App\Table\PostTable;
 
 
@@ -17,7 +18,12 @@ $pdo =  $data->connection();
 
 $postTable = new PostTable($pdo);
 
+$categoryTable = new CategoryTable($pdo);
+
 $post = new Post();
+
+
+$categories =  $categoryTable->list('category');
 
 $success = false;
 
@@ -31,7 +37,15 @@ if(!empty($_POST)) {
 
     $data = $_POST;
 
-    $v = new Validation($data,$postTable);
+    if(!empty($data['categories_ids'])){
+
+        $post->setCategories($data['categories_ids']);
+
+    }
+
+    // dd($post->getCategories_ids());
+
+    $v = new Validation($data,$postTable,$post->getCategories_ids());
 
     $validate = $v->PostValidate();
 

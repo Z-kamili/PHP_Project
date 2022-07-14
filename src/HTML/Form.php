@@ -130,7 +130,7 @@ class Form {
         
         <div class="form-group">
                  <label for="field($key)">{$label}</label>
-                 <select multiple  id="field{$key}" class="{$inputClass}" name="{$key}[]" required >{$optionsHTML}</select>
+                 <select multiple  id="field{$key}" class="{$inputClass}" name="{$key}[]"  >{$optionsHTML}</select>
                 
         </div> 
        

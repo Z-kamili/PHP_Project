@@ -26,7 +26,7 @@ $post = new Post();
 $categories =  $categoryTable->list('category');
 
 
-$post->setCategories($categories);
+
 
 // dd($post->getCategories_ids());
 
@@ -41,6 +41,14 @@ $errors = [];
 if(!empty($_POST)) {
 
     $data = $_POST;
+
+    if(!empty($data['categories_ids'])){
+
+        $post->setCategories($data['categories_ids']);
+
+    }
+
+
 
     $v = new Validation($data,$postTable,$post->getCategories_ids());
 
