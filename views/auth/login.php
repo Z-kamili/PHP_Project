@@ -66,7 +66,6 @@ $form = new Form($user,$error);
 <div class="alert alert-warning">
     <?= 'Identifiant ou mot de passe incorrect' ?>
 </div>
-
 <?php endif?>
 
 <form action="<?= $router->url('login') ?>" method="POST">

@@ -123,6 +123,55 @@ class Form {
 
     }
 
+    public function select(string $key,string $label,array $options = []) : string 
+    {
+
+        $options = [
+            1 => 'Categorie#1',
+            2 =>  'Categorie#2'
+        ];
+
+        $optionsHTML = [];
+
+        foreach($options as $k => $v) {
+
+            $optionsHTML[] = "<option value=\"$k\">$v</option>";
+ 
+        }
+
+        // $value = $this->getValue($key);
+        $optionsHTML = implode('',$optionsHTML);
+        $inputClass = 'form-control';
+
+        return  <<<HTML
+        
+        <div class="form-group">
+                 <label for="field($key)">{$label}</label>
+                 <select multiple  id="field{$key}" class="{$inputClass}" name="{$key}" required >{$optionsHTML}</select>
+                
+        </div> 
+       
+       HTML;
+
+    }
+
+    // public function file (string $key, string $label) 
+    // {
+
+    //     return  <<<HTML
+        
+    //     <div class="form-group">
+    //              <label for="field{$key}">{$label}</label>
+    //              <input type="file" id="field{$key}" class="{$this->getInputClass($key)}" name="{$key}">
+    //              {$this->getErrorFeedback($key)}
+    //     </div> 
+       
+    //    HTML;
+
+    // }
+
+
+
 
 
 

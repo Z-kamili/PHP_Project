@@ -1,6 +1,7 @@
-<form action="" method="POST">
+<form action="" method="POST" enctype="multipart/form-data">
      <?= $form->input('name','Titre'); ?>
      <?= $form->input('slug','Slug'); ?>
+     <?= $form->select('categories','categories') ?>
      <?= $form->textarea('content','content'); ?>
      <?= $form->input('created_at','Date de Creation'); ?> 
 
