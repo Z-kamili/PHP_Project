@@ -28,6 +28,19 @@ final class PostTable extends Table {
             'content'=> $post->getContent(),
             'created_at' => $post->getCreated_at()->format('Y-m-d H:i:s')
           ]);
+
+          //update post_category
+
+          foreach($post->getCategories_ids() as $category) 
+          {
+            $query = $this->pdo->prepare("UPDATE post_category SET post_id = :post_id and category_id = :category_id WHERE post_id = :id");
+
+            $ok = $query->execute([
+              'id' => $post->getID(),
+              'post_id' => $post->getID(),
+              'category_id' => $category,
+            ]);
+          }
        
           if($ok === false ) 
           { 
@@ -48,6 +61,17 @@ final class PostTable extends Table {
         'created' => $post->getCreated_at()->format('Y-m-d H:i:s')
 
        ]);
+
+                 //add post_category
+         $data = $this->all();
+                 foreach($post->getCategories_ids() as $category) 
+                 {
+                   $query = $this->pdo->prepare("INSERT INTO  post_category SET post_id = :post_id, category_id = :category_id");
+                   $ok = $query->execute([
+                     'post_id' => $data->getID(),
+                     'category_id' => $category,
+                   ]);
+                 }
 
        if($ok === false) {
 
@@ -80,6 +104,29 @@ final class PostTable extends Table {
         return $post;
 
     }
+
+    
+    public function all()   {
+
+      $query =  $this->pdo->prepare('SELECT * FROM  post  ORDER BY id desc LIMIT 1');
+
+      $query->execute();
+      
+      $query->setFetchMode(PDO::FETCH_CLASS , Post::class);
+      
+      /** @var Post|false */
+      
+      $post = $query->fetch();
+
+      if($post === false) {
+
+          throw new NotFoundException('post',$post);
+
+      }
+
+      return $post;
+
+  }
 
     public function findPaginated() {
 

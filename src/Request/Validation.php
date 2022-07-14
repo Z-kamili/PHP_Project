@@ -17,6 +17,7 @@ class Validation extends Table {
     {
         $this->data = $data;
         $this->table = $table;
+        $this->categories_ids = $categoriesIDs;
     }
 
 
@@ -34,7 +35,7 @@ class Validation extends Table {
 
         $v->rule('slug','slug');
 
-        $v->rule('subset','categories_ids',$this->data['categories_ids']);
+        $v->rule('required','categories_ids');
 
         $v->rule(function ($field,$value)  {
 
