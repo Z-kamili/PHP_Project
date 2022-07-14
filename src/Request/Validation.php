@@ -3,15 +3,17 @@
 namespace App\Request;
 
 use App\Table\PostTable;
+use App\Table\Table;
 use Valitron\Validator;
 
-class Validation {
+class Validation extends Table {
 
     private $data;
     private $table;
+    private $categories_ids;
      
 
-    public function __construct(array $data,$table)
+    public function __construct(array $data,$table,array $categoriesIDs)
     {
         $this->data = $data;
         $this->table = $table;
@@ -31,6 +33,8 @@ class Validation {
         $v->rule('lengthBetween','content',3,200);
 
         $v->rule('slug','slug');
+
+        $v->rule('subset','categories_ids',$this->data['categories_ids']);
 
         $v->rule(function ($field,$value)  {
 

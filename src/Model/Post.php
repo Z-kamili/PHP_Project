@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Helpers\Text;
+use COM;
 use DateTime;
 
 class Post {
@@ -17,7 +18,9 @@ class Post {
 
     private $created_at;    
 
-    private $categories = [];
+    private  $categories = [];
+
+
 
 
     public function getName() : ?string 
@@ -101,6 +104,47 @@ class Post {
         return $this;
 
     }
+
+
+    public function getCategories() 
+    {
+        return $this->categories;
+    }
+
+    public function setCategories($cat) : self
+    {
+        $this->categories = $cat;
+
+        return $this;
+    }
+
+    public function getCategories_ids() : array 
+    {
+
+         $ids = [];
+
+
+         foreach($this->categories as $k => $category) 
+         {
+           
+            $ids[] = $k;
+         }
+
+         return $ids;
+
+    }
+
+
+    public function addCategory(Category $category) : void 
+    {
+
+         $this->categories[] = $category;
+         $category->setPost($this);
+
+    }
+
+
+
 
 
 }

@@ -2,7 +2,9 @@
 
 use App\database\DataProvider;
 use App\HTML\Form;
+use App\Model\Post;
 use App\Request\Validation;
+use App\Table\CategoryTable;
 use App\Table\PostTable;
 use Valitron\Validator;
 
@@ -17,6 +19,17 @@ $pdo =  $data->connection();
 
 $postTable = new PostTable($pdo);
 
+$categoryTable = new CategoryTable($pdo);
+
+$post = new Post();
+
+$categories =  $categoryTable->list('category');
+
+
+$post->setCategories($categories);
+
+// dd($post->getCategories_ids());
+
 $post = $postTable->find($params['id']);
 
 $success = false;
@@ -29,12 +42,11 @@ if(!empty($_POST)) {
 
     $data = $_POST;
 
-    $v = new Validation($data,$postTable);
+    $v = new Validation($data,$postTable,$post->getCategories_ids());
 
     $validate = $v->PostValidate();
 
     if($validate->validate()) {
-
 
          $date = $_POST['created_at'];
          $post->setName($_POST['name'])
@@ -53,7 +65,7 @@ if(!empty($_POST)) {
 
  }
 
- $form = new Form($post,$errors);
+$form = new Form($post,$errors);
 
 ?>
 

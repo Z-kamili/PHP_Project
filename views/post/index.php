@@ -56,7 +56,7 @@ $data->disconnect($pdo);
 
 
        <?php if ($table->getPaginatedQuery()->getCurrentPage() < $table->getPaginatedQuery()->getPages()): ?>
-
+        
             <a href="<?= $router->url('home') ?>?page=<?= $table->getPaginatedQuery()->getCurrentPage() + 1 ?>" class="btn btn-primary">Page suivant &raquo;</a>
         
         <?php endif ?>

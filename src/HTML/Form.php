@@ -74,31 +74,17 @@ class Form {
        HTML;
     }
 
-    private function getValue(string $key) : ?string
+    private function getValue (string $key)
     {
-
-         if(is_array($this->data)) {
-
+        if (is_array($this->data)) {
             return $this->data[$key] ?? null;
-
-         }
-
-
-         $method = 'get' . ucwords($key);
-
-
-         $value = $this->data->$method();
-
-
-         if ($value instanceof DateTimeInterface) {
-
+        }
+        $method = 'get' . ucwords($key);
+        $value = $this->data->$method(); 
+        if ($value instanceof \DateTimeInterface) {
             return $value->format('Y-m-d H:i:s');
-
-         }
-
-         return  $value;
-
-
+        }
+        return $value;
     }
 
 
@@ -126,20 +112,17 @@ class Form {
     public function select(string $key,string $label,array $options = []) : string 
     {
 
-        $options = [
-            1 => 'Categorie#1',
-            2 =>  'Categorie#2'
-        ];
-
         $optionsHTML = [];
+        $value = $this->getValue($key);
 
         foreach($options as $k => $v) {
 
-            $optionsHTML[] = "<option value=\"$k\">$v</option>";
+            $selected = in_array($k,$value) ? " selected" : "";
+            $optionsHTML[] = "<option value=\"$k\"$selected>$v</option>";
  
         }
 
-        // $value = $this->getValue($key);
+       
         $optionsHTML = implode('',$optionsHTML);
         $inputClass = 'form-control';
 
@@ -147,13 +130,16 @@ class Form {
         
         <div class="form-group">
                  <label for="field($key)">{$label}</label>
-                 <select multiple  id="field{$key}" class="{$inputClass}" name="{$key}" required >{$optionsHTML}</select>
+                 <select multiple  id="field{$key}" class="{$inputClass}" name="{$key}[]" required >{$optionsHTML}</select>
                 
         </div> 
        
        HTML;
 
     }
+
+
+
 
     // public function file (string $key, string $label) 
     // {

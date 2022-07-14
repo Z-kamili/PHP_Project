@@ -12,8 +12,8 @@ use PDO;
 final class UserTable extends Table {
 
 
-    protected $table = "user";
-    protected $class = User::class;
+       protected $table = "user";
+       protected $class = User::class;
 
 
 

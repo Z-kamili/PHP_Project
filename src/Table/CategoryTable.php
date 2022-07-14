@@ -78,8 +78,6 @@ final class CategoryTable extends Table {
 
         $query = $this->pdo->prepare("UPDATE {$table} SET name = :name  , slug = :slug  WHERE id = :id");
 
-
-
         $ok = $query->execute([
           'id' => $ctg->getId(),
           'name' => $ctg->getName(),
@@ -107,6 +105,30 @@ final class CategoryTable extends Table {
     }
 
   }
+
+  public function all($table)  
+  {
+
+     return $this->queryAndFetchAll("SELECT * FROM {$table} ORDER BY  id DESC");
+
+  }
+
+  public function  list($table)  {
+
+    $categories = $this->all($table);
+
+
+    $result = [];
+
+    foreach($categories as $category) 
+    {
+         $result[$category->getID()] = $category->getName();
+    }
+
+    return $result;
+
+  }
+
 
 
       

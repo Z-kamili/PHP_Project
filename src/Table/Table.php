@@ -27,7 +27,7 @@ class Table {
      * @param Post $post
      * @return void
      */
-    public function FindPostCategories(Post $post)
+    protected function FindPostCategories(Post $post)
     {
 
         $query = $this->pdo->prepare('SELECT c.id , c.slug , c.name from post_category pc JOIN category c ON pc.category_id = c.id WHERE pc.post_id = :id ');
@@ -59,7 +59,7 @@ class Table {
      * @param [type] $table
      * @return boolean
      */
-    public function exists (string $field,$value,$table) :bool   
+    protected function exists (string $field,$value,$table) :bool   
     {
        try {
 
@@ -75,6 +75,26 @@ class Table {
        return (int)$query->fetch(PDO::FETCH_NUM)[0] > 0;
 
 
+
+    }
+
+
+    /**
+     * return array
+     */
+
+    protected function queryAndFetchAll($query) 
+    {
+
+        $res = $this->pdo->prepare($query);
+
+        $res->execute();
+
+          $res->setFetchMode(PDO::FETCH_CLASS,Category::class);
+
+          $data =  $res->fetchAll();
+
+        return $data;
 
     }
 
