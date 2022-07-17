@@ -108,6 +108,7 @@ final class PostTable extends Table {
     
     public function all()   {
 
+
       $query =  $this->pdo->prepare('SELECT * FROM  post  ORDER BY id desc LIMIT 1');
 
       $query->execute();
